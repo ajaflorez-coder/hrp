@@ -23,7 +23,6 @@ import io.swagger.annotations.ApiOperation;
 import pe.edu.hr.model.entity.Country;
 import pe.edu.hr.model.entity.Location;
 import pe.edu.hr.service.CountryService;
-import pe.edu.hr.service.LocationService;
 
 @RestController
 @RequestMapping("/countries")
