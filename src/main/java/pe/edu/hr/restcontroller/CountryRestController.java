@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import pe.edu.hr.model.entity.Country;
+import pe.edu.hr.model.entity.Language;
 import pe.edu.hr.model.entity.Location;
 import pe.edu.hr.service.CountryService;
 
@@ -142,6 +143,24 @@ public class CountryRestController {
 			Optional<Country> searched = countryService.findById(id);			
 			if(searched.isPresent()) {
 				searched.get().addLocation(location);
+				countryService.save( searched.get() );
+				return new ResponseEntity< Object >(HttpStatus.OK);
+			} else {
+				return new ResponseEntity< Object >(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation("Save language in country")
+	@PostMapping( path = "/{id}/language",  consumes = MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE )
+	public ResponseEntity<Object> saveLanguage( @PathVariable("id") String id, @Valid @RequestBody Language language ) {
+		try {
+			// Ubicamos el country
+			Optional<Country> searched = countryService.findById(id);			
+			if(searched.isPresent()) {
+				searched.get().addLanguage(language);
 				countryService.save( searched.get() );
 				return new ResponseEntity< Object >(HttpStatus.OK);
 			} else {

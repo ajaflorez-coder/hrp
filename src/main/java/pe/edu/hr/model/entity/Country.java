@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -36,9 +38,20 @@ public class Country {
 	
 	@OneToMany( mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	private List< Location > locations;
+	
+	@ManyToMany
+	@JoinTable(name="country_language", 
+		joinColumns = {@JoinColumn(name = "country_id", referencedColumnName="country_id")},
+		inverseJoinColumns = {@JoinColumn(name = "language_id", referencedColumnName="id")} )
+	private List<Language> languages;
 
 	public Country() {
 		this.locations = new ArrayList<>();
+		this.languages = new ArrayList<>();
+	}
+	//-- language
+	public void addLanguage( Language language ) {
+		this.languages.add(language);
 	}
 	//---------------------------------------
 	public void addLocation( Location location) {
