@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -36,19 +37,22 @@ public class Country {
 	@NotNull( message = "Enter the region" )
 	private Region region;
 	
+	//------------------------------------------------------
 	@OneToMany( mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-	private List< Location > locations;
+	@OrderBy( "city ASC" )
+	private List< Location > locations;	
 	
-	@ManyToMany
+	@ManyToMany( fetch = FetchType.LAZY )
 	@JoinTable(name="country_language", 
-		joinColumns = {@JoinColumn(name = "country_id", referencedColumnName="country_id")},
-		inverseJoinColumns = {@JoinColumn(name = "language_id", referencedColumnName="id")} )
+		joinColumns = { @JoinColumn(name = "country_id", referencedColumnName="country_id") },
+		inverseJoinColumns = { @JoinColumn(name = "language_id", referencedColumnName="id") } )
 	private List<Language> languages;
 
 	public Country() {
 		this.locations = new ArrayList<>();
 		this.languages = new ArrayList<>();
 	}
+	//------------------------------------------------------
 	//-- language
 	public void addLanguage( Language language ) {
 		this.languages.add(language);
@@ -71,27 +75,36 @@ public class Country {
 	}
 	//---------------------------------------
 	public String getId() {
-		return this.id;
+		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
 	public String getName() {
-		return this.name;
+		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public Region getRegion() {
-		return this.region;
+		return region;
 	}
-
 	public void setRegion(Region region) {
 		this.region = region;
 	}
+	public List<Location> getLocations() {
+		return locations;
+	}
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+	public List<Language> getLanguages() {
+		return languages;
+	}
+	public void setLanguages(List<Language> languages) {
+		this.languages = languages;
+	}
+	
+
 
 }

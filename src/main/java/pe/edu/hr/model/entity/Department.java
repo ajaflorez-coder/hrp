@@ -1,14 +1,21 @@
 package pe.edu.hr.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table( name = "departments" )
@@ -20,19 +27,35 @@ public class Department {
 	private Integer id;
 	
 	@Column( name = "department_name", length = 30, nullable = false )
+	@NotEmpty( message = "Enter the department Name")
 	private String name;
 	
-	@Column( name = "manager_id", columnDefinition = "INTEGER(6)" )
-	private Integer manager_id;
+	@ManyToOne
+	@JoinColumn( name = "manager_id", columnDefinition = "INTEGER(6)", referencedColumnName = "employee_id", nullable = true )
+	private Employee managerDepartment;
 	
 	@ManyToOne
 	@JoinColumn( name = "location_id", nullable = false )
 	private Location location;
 
+	//-----------------------------------------------------------
+	@OneToMany( mappedBy = "department", fetch = FetchType.LAZY )
+	@OrderBy
+	private List<Employee> employees;
+	
+	@OneToMany( mappedBy = "department", fetch = FetchType.LAZY )
+	@OrderBy
+	private List<JobHistory> jobHistories;
+	
+	public Department() {
+		this.employees = new ArrayList<>();
+		this.jobHistories = new ArrayList<>();
+	}
+	//------------------------------------------------------
+
 	public Integer getId() {
 		return id;
 	}
-	
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -46,12 +69,12 @@ public class Department {
 		this.name = name;
 	}
 
-	public Integer getManager_id() {
-		return manager_id;
+	public Employee getManagerDepartment() {
+		return managerDepartment;
 	}
 
-	public void setManager_id(Integer manager_id) {
-		this.manager_id = manager_id;
+	public void setManagerDepartment(Employee managerDepartment) {
+		this.managerDepartment = managerDepartment;
 	}
 
 	public Location getLocation() {
@@ -61,5 +84,25 @@ public class Department {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public List<JobHistory> getJobHistories() {
+		return jobHistories;
+	}
+
+	public void setJobHistories(List<JobHistory> jobHistories) {
+		this.jobHistories = jobHistories;
+	}
+	
+	
+
+	
 	
 }

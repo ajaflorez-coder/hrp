@@ -17,10 +17,11 @@ import javax.persistence.TemporalType;
 @Table( name = "job_history", 
 		indexes = { @Index( name = "job_history_indx_0", columnList = "employee_id" ) } )
 @IdClass(JobHistoryId.class)
-public class JobHistory {
+public class JobHistory {	
 	@Id
-	@Column( name = "employee_id", columnDefinition = "INTEGER(6)" )	
-	private Integer id;
+	@ManyToOne	
+	@JoinColumn( name = "employee_id", columnDefinition = "INTEGER(6)" ) 
+	private Employee employee;
 	
 	@Id
 	@Column( name = "start_date", nullable = false )
@@ -39,12 +40,12 @@ public class JobHistory {
 	@JoinColumn( name = "department_id" )
 	private Department department;
 
-	public Integer getId() {
-		return id;
+	public Employee getEmployee() {
+		return employee;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 
 	public Date getStartDate() {
@@ -78,6 +79,5 @@ public class JobHistory {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-	
-	
+
 }

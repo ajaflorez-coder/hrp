@@ -1,8 +1,14 @@
 package pe.edu.hr.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -23,6 +29,21 @@ public class Job {
 	@Min(value = 0)
 	@Column( name = "max_salary", columnDefinition = "INTEGER(6)" )
 	private Integer maxSalary;
+
+	//------------------------------------------------------
+	@OneToMany( mappedBy = "job", fetch = FetchType.LAZY )
+	@OrderBy
+	private List<Employee> employees;
+	
+	@OneToMany( mappedBy = "job", fetch = FetchType.LAZY )
+	@OrderBy
+	private List<JobHistory> jobHistories;
+	
+	public Job() {
+		this.employees = new ArrayList<>();
+		this.jobHistories = new ArrayList<>();
+	}
+	//------------------------------------------------------
 
 	public String getId() {
 		return id;
@@ -55,5 +76,22 @@ public class Job {
 	public void setMaxSalary(Integer maxSalary) {
 		this.maxSalary = maxSalary;
 	}
+
+	public List<Employee> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<Employee> employees) {
+		this.employees = employees;
+	}
+
+	public List<JobHistory> getJobHistories() {
+		return jobHistories;
+	}
+
+	public void setJobHistories(List<JobHistory> jobHistories) {
+		this.jobHistories = jobHistories;
+	}
+	
 	
 }
