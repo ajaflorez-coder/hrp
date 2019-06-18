@@ -14,6 +14,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "regions" )
 public class Region {
@@ -29,6 +31,7 @@ public class Region {
 	//------------------------------------------------------
 	@OneToMany( mappedBy = "region", fetch=FetchType.LAZY )
 	@OrderBy( "name ASC" )
+	@JsonIgnoreProperties("region")
 	private List<Country> countries;
 	//------------------------------------------------------
 	

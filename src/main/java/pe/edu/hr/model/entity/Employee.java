@@ -24,6 +24,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "employees", 
 		indexes = { @Index( name = "employees_indx_0", columnList = "last_name, first_name" ) }, 
@@ -57,6 +59,7 @@ public class Employee {
 	
 	@ManyToOne
 	@JoinColumn( name = "job_id", nullable = false )
+	@JsonIgnoreProperties("employees")
 	private Job job;
 	
 	@Min(value = 0)
@@ -68,23 +71,28 @@ public class Employee {
 	
 	@ManyToOne
 	@JoinColumn( name = "manager_id", nullable = true )
+	@JsonIgnoreProperties("employeesManager")
 	private Employee managerEmployee;
 	
 	@ManyToOne
 	@JoinColumn( name = "department_id", nullable = true )
+	@JsonIgnoreProperties("employees")
 	private Department department;
 	
 	//------------------------------------------------------
 	@OneToMany( mappedBy = "managerDepartment", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("managerDepartment")
 	private List<Department> departmentsManager;
 	
 	@OneToMany( mappedBy = "managerEmployee", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("managerEmployee")
 	private List<Employee> employeesManager;
 	
 	@OneToMany( mappedBy = "employee", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("employee")
 	private List<JobHistory> jobHistories;	
 	
 	public Employee() {

@@ -17,6 +17,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "departments" )
 @SequenceGenerator( name = "seqDepartment", initialValue = 280 )
@@ -32,19 +34,23 @@ public class Department {
 	
 	@ManyToOne
 	@JoinColumn( name = "manager_id", columnDefinition = "INTEGER(6)", referencedColumnName = "employee_id", nullable = true )
+	@JsonIgnoreProperties("departmentsManager")
 	private Employee managerDepartment;
 	
 	@ManyToOne
 	@JoinColumn( name = "location_id", nullable = false )
+	@JsonIgnoreProperties("departments")
 	private Location location;
 
 	//-----------------------------------------------------------
 	@OneToMany( mappedBy = "department", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("department")
 	private List<Employee> employees;
 	
 	@OneToMany( mappedBy = "department", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("department")
 	private List<JobHistory> jobHistories;
 	
 	public Department() {

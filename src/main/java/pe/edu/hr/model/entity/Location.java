@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "locations", 
 		indexes = { @Index( name = "locations_indx_0", columnList = "city" ),
@@ -47,11 +49,13 @@ public class Location {
 	@ManyToOne
 	@JoinColumn( name = "country_id", nullable = false )
 	@NotNull(message = "Enter the Country")
+	@JsonIgnoreProperties("locations")
 	private Country country;
 
 	//------------------------------------------------------
 	@OneToMany( mappedBy = "location", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("location")
 	private List<Department> departments;	
 	
 	public Location() {

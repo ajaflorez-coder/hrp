@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "job_history", 
 		indexes = { @Index( name = "job_history_indx_0", columnList = "employee_id" ) } )
@@ -21,6 +23,7 @@ public class JobHistory {
 	@Id
 	@ManyToOne	
 	@JoinColumn( name = "employee_id", columnDefinition = "INTEGER(6)" ) 
+	@JsonIgnoreProperties("jobHistories")
 	private Employee employee;
 	
 	@Id
@@ -34,10 +37,12 @@ public class JobHistory {
 	
 	@ManyToOne
 	@JoinColumn( name = "job_id", nullable = false )
+	@JsonIgnoreProperties("jobHistories")
 	private Job job;
 	
 	@ManyToOne
 	@JoinColumn( name = "department_id" )
+	@JsonIgnoreProperties("jobHistories")
 	private Department department;
 
 	public Employee getEmployee() {

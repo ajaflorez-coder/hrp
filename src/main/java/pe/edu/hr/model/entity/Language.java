@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="languages")
 public class Language {
@@ -28,6 +30,7 @@ public class Language {
 	
 	//------------------------------------------------------
 	@ManyToMany(mappedBy="languages", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("languages")
 	private List<Country> countries;	
 	
 	public Language() {

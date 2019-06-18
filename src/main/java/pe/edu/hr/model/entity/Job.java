@@ -12,6 +12,8 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "jobs" )
 public class Job {
@@ -33,10 +35,12 @@ public class Job {
 	//------------------------------------------------------
 	@OneToMany( mappedBy = "job", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("job")
 	private List<Employee> employees;
 	
 	@OneToMany( mappedBy = "job", fetch = FetchType.LAZY )
 	@OrderBy
+	@JsonIgnoreProperties("job")
 	private List<JobHistory> jobHistories;
 	
 	public Job() {

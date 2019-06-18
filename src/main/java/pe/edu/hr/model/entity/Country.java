@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table( name = "countries" )
 public class Country {
@@ -35,17 +37,20 @@ public class Country {
 	@ManyToOne
 	@JoinColumn( name = "region_id", nullable = false )
 	@NotNull( message = "Enter the region" )
+	@JsonIgnoreProperties("countries")
 	private Region region;
 	
 	//------------------------------------------------------
 	@OneToMany( mappedBy = "country", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	@OrderBy( "city ASC" )
+	@JsonIgnoreProperties("country")
 	private List< Location > locations;	
 	
 	@ManyToMany( fetch = FetchType.LAZY )
 	@JoinTable(name="country_language", 
 		joinColumns = { @JoinColumn(name = "country_id", referencedColumnName="country_id") },
 		inverseJoinColumns = { @JoinColumn(name = "language_id", referencedColumnName="id") } )
+	@JsonIgnoreProperties("countries")
 	private List<Language> languages;
 
 	public Country() {
