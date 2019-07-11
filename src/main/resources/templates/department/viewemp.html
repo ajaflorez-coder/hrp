@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container">
+		<h1>Human Resoruce Department</h1>
+
+		<div class="card border-success text-center  ">
+			<div class="card-header border-success">List of employees of <span th:text="${department.name}"></span> </div>
+			<div class="card-body">
+				<label></label>
+
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead class="bg-primary text-white">
+							<tr>
+								<th scope="col">Id</th>
+								<th scope="col">First name</th>
+								<th scope="col">Last name</th>
+								<th scope="col">Hire date</th>
+								<th scope="col" colspan="3">Options</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="emp:${employees}">
+								<th scope="row" th:text="${emp.id}"></th>
+								<td class="text-left" th:text="${emp.firstName}"></td>
+								<td class="text-left" th:text="${emp.lastName}"></td>
+								<td class="text-left" th:text="${emp.hireDate}"></td>
+								
+								<td></td>
+								
+								<td><a th:href="@{'/department/employee/edit/' + ${emp.id}}"
+									class="btn btn-info"> <i class="fas fa-edit"></i>
+								</a></td>
+								<td><a  th:href="@{'/department/employee/del/' + ${emp.id}}"
+									class="btn btn-danger" > <i class="fas fa-trash-alt"></i>
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+			<div class="card-footer text-muted border-success">
+				<a th:href="@{/department/employee/new/}"
+					class="btn btn-success"> <i class="fas fa-file"></i> New Employee
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
+
+
+
+
